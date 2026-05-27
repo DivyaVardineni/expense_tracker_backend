@@ -1,13 +1,26 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import mysql.connector
+import os
 
+app = FastAPI()
+
+# CORS SETTINGS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],   # Allow all methods
+    allow_headers=["*"],   # Allow all headers
+)
 
 
 conn_obj = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Divya@801",
-    database="API_CRUD"
+    host=os.getenv("db_host"),
+    user=os.getenv("db_user"),
+    password=os.getenv("db_password"),
+    database=os.getenv("db_name"),
+    port=int(os.getenv("db_port"))
 )
 
 cursor_obj = conn_obj.cursor(dictionary=True)
@@ -32,7 +45,7 @@ CREATE TABLE IF NOT EXISTS expenses(
 cursor_obj.execute(create_table_query)
 conn_obj.commit()
 
-app = FastAPI()
+
 
 
 

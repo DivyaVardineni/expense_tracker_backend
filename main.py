@@ -117,7 +117,7 @@ def update_expense(expense_id: int, new_data: dict):
 
     return {"msg": "Expense Updated Successfully"}
 
-@app.get("/search_expense?{category}")
+@app.get("/search_expense/{category}")
 def search_expense(category: str):
     query = """
     SELECT * FROM expenses
